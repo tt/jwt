@@ -91,7 +91,7 @@ func TestRSAPSSSign(t *testing.T) {
 			if err != nil {
 				t.Errorf("[%v] Error signing token: %v", data.name, err)
 			}
-			if sig == parts[2] {
+			if jwt.EncodeSegment(sig) == parts[2] {
 				t.Errorf("[%v] Signatures shouldn't match\nnew:\n%v\noriginal:\n%v", data.name, sig, parts[2])
 			}
 		}

@@ -94,11 +94,11 @@ func TestECDSASign(t *testing.T) {
 			if err != nil {
 				t.Errorf("[%v] Error signing token: %v", data.name, err)
 			}
-			if sig == parts[2] {
+			if jwt.EncodeSegment(sig) == parts[2] {
 				t.Errorf("[%v] Identical signatures\nbefore:\n%v\nafter:\n%v", data.name, parts[2], sig)
 			}
 
-			err = method.Verify(toSign, sig, ecdsaKey.Public())
+			err = method.Verify(toSign, jwt.EncodeSegment(sig), ecdsaKey.Public())
 			if err != nil {
 				t.Errorf("[%v] Sign produced an invalid signature: %v", data.name, err)
 			}
@@ -155,7 +155,7 @@ func BenchmarkECDSASigning(b *testing.B) {
 				if err != nil {
 					b.Fatalf("[%v] Error signing token: %v", data.name, err)
 				}
-				if sig == parts[2] {
+				if jwt.EncodeSegment(sig) == parts[2] {
 					b.Fatalf("[%v] Identical signatures\nbefore:\n%v\nafter:\n%v", data.name, parts[2], sig)
 				}
 			}
